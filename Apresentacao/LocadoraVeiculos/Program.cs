@@ -1,3 +1,5 @@
+using LocadoraVeiculos.Middlewares;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -15,10 +17,11 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthorization();
+
+//Custom Middlewares
+IApplicationBuilder applicationBuilder = app.UseMiddleware<FriendListMiddleware>(builder.Configuration["AllowedHosts"]);
 
 app.MapControllerRoute(
     name: "default",
